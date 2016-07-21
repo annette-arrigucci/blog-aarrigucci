@@ -23,6 +23,11 @@ namespace blog_aarrigucci.Migrations
             {
                 roleManager.Create(new IdentityRole { Name = "Admin" });
             }
+            //the above section will change
+            if (!context.Roles.Any(r => r.Name == "Moderator"))
+            {
+                roleManager.Create(new IdentityRole { Name = "Moderator" });
+            }
             var userManager = new UserManager<ApplicationUser>(
            new UserStore<ApplicationUser>(context));
             if (!context.Users.Any(u => u.Email == "annette.arrigucci@outlook.com"))
@@ -34,10 +39,40 @@ namespace blog_aarrigucci.Migrations
                     FirstName = "Annette",
                     LastName = "Arrigucci",
                     DisplayName = "Annette Arrigucci"
-                }, "password");
+                }, "Password$1");
+            }
+            if (!context.Users.Any(u => u.Email == "moderator@coderfoundry.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "PostModerator",
+                    Email = "moderator@coderfoundry.com",
+                    FirstName = "Post",
+                    LastName = "Moderator",
+                    DisplayName = "Post Moderator"
+                }, "Password-1");
+            }
+
+            if (!context.Users.Any(u => u.Email == "jtwichell@coderfoundry.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "jtwichell@coderfoundry.com",
+                    Email = "jtwichell@coderfoundry.com",
+                    FirstName = "Jason",
+                    LastName = "Twichell",
+                    DisplayName = "J-Twich"
+                }, "Abc&123!");
             }
             var userId = userManager.FindByEmail("annette.arrigucci@outlook.com").Id;
             userManager.AddToRole(userId, "Admin");
+            //set the user we created as a Moderator
+
+            var userId2 = userManager.FindByEmail("moderator@coderfoundry.com").Id;
+            userManager.AddToRole(userId2, "Moderator");
+
+            var userId3 = userManager.FindByEmail("jtwichell@coderfoundry.com").Id;
+            userManager.AddToRole(userId3, "Moderator");
         }
 
     }
