@@ -64,6 +64,18 @@ namespace blog_aarrigucci.Migrations
                     DisplayName = "J-Twich"
                 }, "Abc&123!");
             }
+
+            if (!context.Users.Any(u => u.Email == "annette_c_a@yahoo.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "annette_c_a@yahoo.com",
+                    Email = "annette_c_a@yahoo.com",
+                    FirstName = "Annette",
+                    LastName = "Arrigucci",
+                    DisplayName = "annette_c_a"
+                }, "Abc&123!");
+            }
             var userId = userManager.FindByEmail("annette.arrigucci@outlook.com").Id;
             userManager.AddToRole(userId, "Admin");
             //set the user we created as a Moderator
@@ -73,6 +85,9 @@ namespace blog_aarrigucci.Migrations
 
             var userId3 = userManager.FindByEmail("jtwichell@coderfoundry.com").Id;
             userManager.AddToRole(userId3, "Moderator");
+
+            var userId4 = userManager.FindByEmail("annette_c_a@yahoo.com").Id;
+            userManager.AddToRole(userId4, "Moderator");
         }
 
     }
